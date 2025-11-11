@@ -260,32 +260,96 @@ a:focus {
 }
 
 .story-card {
+  position: relative;
+  perspective: 1200px;
+  outline: none;
+  height: var(--story-card-height, 380px);
+}
+
+.story-card .card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.story-card .card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(1.8rem, 1.4rem + 0.8vw, 2.4rem) clamp(1.6rem, 1.3rem + 0.6vw, 2.2rem);
   background: var(--bg-alt);
-  padding: 2.2rem;
   border-radius: 24px;
   box-shadow: var(--shadow);
-  position: relative;
+  backface-visibility: hidden;
   overflow: hidden;
 }
 
-.story-card::before {
+.story-card .card-face::before {
   content: "";
   position: absolute;
   inset: -30% -40% auto -40%;
   height: 70%;
-  background: radial-gradient(circle at top left, rgba(124, 77, 255, 0.2), transparent 70%);
+  background: radial-gradient(circle at top left, rgba(124, 77, 255, 0.18), transparent 70%);
   transform: rotate(-8deg);
+  pointer-events: none;
 }
 
-.story-card h2 {
-  margin-top: 0.4rem;
-  font-size: 1.4rem;
-}
-
-.story-card p {
+.story-card .card-face > * {
   position: relative;
+  margin: 0;
+}
+
+.story-card .card-front h3 {
+  font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.75rem);
+}
+
+.story-card .card-back {
+  transform: rotateY(180deg);
+  align-items: stretch;
+  text-align: left;
+  justify-content: center;
+}
+
+.story-card .card-back p {
   color: var(--muted);
-  line-height: 1.75;
+  line-height: 1.5;
+  text-align: left;
+  font-size: clamp(0.9rem, 0.8rem + 0.3vw, 1.05rem);
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.story-card .card-back p + p {
+  margin-top: 1rem;
+}
+
+.story-card:hover .card-inner,
+.story-card:focus .card-inner,
+.story-card:focus-within .card-inner {
+  transform: rotateY(180deg);
+}
+
+.story-card:focus-visible .card-face {
+  box-shadow: var(--shadow), 0 0 0 3px rgba(124, 77, 255, 0.35);
+}
+
+.story-card .card-front,
+.story-card .card-back {
+  transform-style: preserve-3d;
+}
+
+.story-card .card-front {
+  position: relative;
+}
+
+.story-card .card-front {
+  font-weight: 600;
 }
 
 .card-tag {
