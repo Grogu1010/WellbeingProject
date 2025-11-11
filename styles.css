@@ -1,11 +1,16 @@
+
 :root {
   --bg: #f7f4ff;
   --bg-alt: #ffffff;
-  --accent: #7c4dff;
+  --accent: #6a4dff;
+  --accent-soft: #d8ccff;
   --accent-2: #ff6584;
   --text: #1e1037;
   --muted: #5d5170;
+  --surface-border: rgba(106, 77, 255, 0.15);
   --shadow: 0 20px 40px rgba(43, 22, 75, 0.12);
+  --shadow-soft: 0 25px 55px rgba(65, 38, 105, 0.18);
+  --transition-snap: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 * {
@@ -16,9 +21,34 @@ body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   color: var(--text);
-  background: radial-gradient(circle at top left, #ffe8f1, transparent 40%),
-    radial-gradient(circle at bottom right, #e0d6ff, transparent 35%), var(--bg);
+  background: var(--bg);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  width: 65vmax;
+  height: 65vmax;
+  filter: blur(90px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+body::before {
+  background: radial-gradient(circle, rgba(255, 101, 132, 0.35), transparent 65%);
+  top: -20vmax;
+  left: -20vmax;
+}
+
+body::after {
+  background: radial-gradient(circle, rgba(106, 77, 255, 0.3), transparent 60%);
+  bottom: -25vmax;
+  right: -10vmax;
 }
 
 a {
@@ -34,6 +64,11 @@ a:focus {
 .container {
   width: min(1100px, 92vw);
   margin: 0 auto;
+  padding-inline: clamp(0.5rem, 1vw, 1rem);
+}
+
+section {
+  scroll-margin-top: 6rem;
 }
 
 .flex-between {
@@ -44,12 +79,13 @@ a:focus {
 }
 
 .site-header {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
   position: sticky;
   top: 0;
   z-index: 10;
-  box-shadow: 0 10px 20px rgba(30, 16, 55, 0.04);
+  box-shadow: 0 10px 30px rgba(30, 16, 55, 0.06);
+  border-bottom: 1px solid rgba(106, 77, 255, 0.12);
 }
 
 .logo {
@@ -69,12 +105,15 @@ a:focus {
 .main-nav a {
   padding: 0.55rem 1rem;
   border-radius: 999px;
-  transition: all 0.2s ease;
+  transition: background 0.25s var(--transition-snap),
+    color 0.25s var(--transition-snap),
+    transform 0.25s var(--transition-snap);
 }
 
 .main-nav a:hover,
 .main-nav a:focus {
   background: rgba(124, 77, 255, 0.15);
+  transform: translateY(-1px);
 }
 
 .main-nav a.active {
@@ -84,7 +123,18 @@ a:focus {
 }
 
 .hero {
-  padding: 6rem 0 4rem;
+  padding: 6rem 0 4.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 10% -30% -40% 40%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.65), transparent 55%);
+  filter: blur(20px);
+  z-index: -1;
 }
 
 .hero-content {
@@ -116,20 +166,21 @@ a:focus {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 2.4rem;
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.6rem;
+  padding: 0.85rem 1.8rem;
   border-radius: 999px;
   font-weight: 600;
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent), #9d7dff);
   color: white;
-  box-shadow: 0 15px 30px rgba(124, 77, 255, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 18px 36px rgba(124, 77, 255, 0.28);
+  transition: transform 0.25s var(--transition-snap),
+    box-shadow 0.25s var(--transition-snap);
 }
 
 .btn.secondary {
@@ -140,15 +191,16 @@ a:focus {
 
 .btn:hover,
 .btn:focus {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 35px rgba(124, 77, 255, 0.28);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 42px rgba(124, 77, 255, 0.32);
 }
 
 .hero-card {
-  background: var(--bg-alt);
-  padding: 2rem;
-  border-radius: 24px;
-  box-shadow: var(--shadow);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(216, 204, 255, 0.8));
+  padding: 2.4rem;
+  border-radius: 28px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--surface-border);
 }
 
 .hero-card h2 {
@@ -157,13 +209,13 @@ a:focus {
 }
 
 .hero-card ul {
-  padding-left: 1.4rem;
+  padding-left: 1.3rem;
   color: var(--muted);
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .hobby-grid {
-  padding: 4rem 0 6rem;
+  padding: 4rem 0 6.5rem;
 }
 
 .hobby-grid h2 {
@@ -179,13 +231,15 @@ a:focus {
 }
 
 .hobby-card {
-  background: var(--bg-alt);
-  padding: 2rem;
-  border-radius: 24px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.75));
+  padding: 2.2rem;
+  border-radius: 28px;
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.3s var(--transition-snap),
+    box-shadow 0.3s var(--transition-snap);
+  border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
 .hobby-card::after {
@@ -199,8 +253,8 @@ a:focus {
 
 .hobby-card:hover,
 .hobby-card:focus {
-  transform: translateY(-8px);
-  box-shadow: 0 25px 45px rgba(30, 16, 55, 0.15);
+  transform: translateY(-10px) scale(1.01);
+  box-shadow: 0 28px 50px rgba(30, 16, 55, 0.16);
 }
 
 .hobby-card h3 {
@@ -224,10 +278,10 @@ a:focus {
 }
 
 .site-footer {
-  padding: 3rem 0 2rem;
+  padding: 3.5rem 0 2.5rem;
   text-align: center;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .page {
@@ -255,15 +309,18 @@ a:focus {
 
 .card-grid .grid {
   display: grid;
-  gap: 2rem;
+  gap: 2.4rem;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
 .story-card {
   position: relative;
-  perspective: 1200px;
+  perspective: 1400px;
   outline: none;
-  height: var(--story-card-height, 380px);
+  --story-card-height: clamp(320px, 55vw, 400px);
+  height: var(--story-card-height);
+  --card-back-font-min: 0.82;
+  --card-back-font-max: 1.05;
 }
 
 .story-card .card-inner {
@@ -271,7 +328,7 @@ a:focus {
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  transition: transform 0.6s ease;
+  transition: transform 0.7s var(--transition-snap);
 }
 
 .story-card .card-face {
@@ -282,10 +339,12 @@ a:focus {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: clamp(1.8rem, 1.4rem + 0.8vw, 2.4rem) clamp(1.6rem, 1.3rem + 0.6vw, 2.2rem);
-  background: var(--bg-alt);
-  border-radius: 24px;
+  padding: clamp(1.9rem, 1.5rem + 0.8vw, 2.5rem)
+    clamp(1.7rem, 1.3rem + 1vw, 2.4rem);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(244, 238, 255, 0.82));
+  border-radius: 26px;
   box-shadow: var(--shadow);
+  border: 1px solid var(--surface-border);
   backface-visibility: hidden;
   overflow: hidden;
 }
@@ -314,13 +373,15 @@ a:focus {
   align-items: stretch;
   text-align: left;
   justify-content: center;
+  font-size: var(--card-back-font, 1rem);
+  line-height: 1.6;
+  overflow: hidden;
 }
 
 .story-card .card-back p {
   color: var(--muted);
-  line-height: 1.5;
   text-align: left;
-  font-size: clamp(0.9rem, 0.8rem + 0.3vw, 1.05rem);
+  font-size: inherit;
   overflow-wrap: anywhere;
   text-wrap: pretty;
 }
